@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EFL - Amaan Riyaz</title>
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Link to All Font Awesome Icons -->
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
+  <!-- Fav Icon -->
+  <link rel="icon" href="/EFL/static/images/fav.png" type="image/x-icon">
+  <!-- Static Links -->
+  <link rel="stylesheet" href="/EFL/static/style.css">
+
+  <style>
+    /* Hero Section */
+    .hero {
+      background: url('/EFL/static/images/pc-playerstat.png') no-repeat center center/cover;
+      background-attachment: fixed;
+    }
+
+    .media-section {
+      margin-top: 5rem;
+    }
+
+    /* Player Card Container */
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    /* Individual Card Wrapper */
+    .card-wrapper {
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: var(--box-shdw);
+      border: 2px solid var(--primary-color);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-wrapper:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    }
+    .card-btn {
+      width: 100%;
+      background: var(--primary-color);
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      font-weight: 600;
+      font-family: "Poppins", sans-serif;
+    }
+    /* Player Card */
+    video {
+      width: 100%;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    /* Player Card Container */
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px;
+      margin-top: 20px;
+    }
+    /* Player Card */
+    .player-card {
+      width: 150px;
+      height: 220px;
+      background: linear-gradient(135deg, #FFD700, #FF4500);
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+
+    table {
+      width: 280px;
+      border: 2px solid var(--primary-color);
+      background-color: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: var(--box-shdw);
+    }
+    table th {
+      text-align: left;
+      border-bottom: 2px solid #eee;
+    }
+    table td {
+      text-align: right;
+      border-bottom: 2px solid #eee;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preloader: a full-screen overlay with a looping GIF -->
+  <div id="buffer">
+    <img id="buffer-gif" autoplay loop muted playsinline src="/EFL/static/images/loading.gif">
+  </div>
+
+  <!-- Header & Navigation -->
+  <header>
+    <nav class="container">
+      <div class="logo">
+        <a href="/index.html"><img src="/EFL/static/images/logo.png" alt="logo" width="240px"></a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/EFL/index.html">Home</a></li>
+        <li><a href="/EFL/tournaments.html">Tournaments</a></li>
+        <li><a href="/EFL/teams.html">Teams</a></li>
+        <li><a href="/EFL/players.html" style="color: #f39c12;">Players</a></li>
+        <li><a href="/EFL/pending.html">Awards</a></li>
+      </ul>
+      <div class="burger">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Static Scroll-to-Top Button -->
+  <a href="#top" id="scrollToTop" aria-label="Scroll to Top"><i class="fa-solid fa-arrow-up"></i></a>
+
+
+  <!-- Player Stats Section -->
+  <section class="media-section">
+    <div class="container">
+      <h2>Player Details</h2>
+      <!-- Player Cards -->
+      <div class="card-container" id="cardContainer">
+        <div class="card-wrapper" data-player="Amaan Riyaz">
+          <button class="card-btn">Bronze (Non-Rare)</button>
+          <video autoplay loop muted playsinline src="/EFL/static/cards/amaan-riyaz.mp4"></video>
+        </div>
+        <table id="statsTable">
+          <tr>
+            <th colspan="2" style="text-align: center; font-size: 1.1rem; color: var(--primary-color);">
+              Gameplay Stats
+            </th>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-goal-net fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Goals</th>
+              <td id="goals">0</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-handshake-angle fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Assists
+            </th>
+              <td id="assists">1</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-futbol fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Shots
+              </th>
+              <td id="shots">2</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-court-sport fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Matches Played
+            </th>
+              <td id="matchesPlayed">2</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-user fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Starts
+            </th>
+              <td id="starts">2</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-clock fa-bounce" style="--fa-primary-color: #e39c12; --fa-primary-opacity: 0.4; --fa-secondary-color: #e39c12; --fa-secondary-opacity: 1;"></i>
+              &nbsp;Minutes Played
+            </th>
+              <td id="minutesPlayed">60</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-arrow-up-arrow-down fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Substitutions
+            </th>
+              <td id="substitutions">0</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-whistle fa-bounce" style="--fa-primary-color: #e39c12; --fa-primary-opacity: 0.4; --fa-secondary-color: #e39c12; --fa-secondary-opacity: 1;"></i>
+              &nbsp;Fouls Taken
+            </th>
+              <td id="foulsTaken">0</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-whistle fa-bounce" style="--fa-primary-color: #e39c12; --fa-primary-opacity: 0.4; --fa-secondary-color: #e39c12; --fa-secondary-opacity: 1;"></i>
+              &nbsp;Fouls Given
+            </th>
+              <td id="foulsGiven">0</td>
+          </tr>
+          <tr>
+            <th>
+              <i class="fa-duotone fa-solid fa-goal-net fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Penalties Scored
+            </th>
+              <td id="penaltiesScored">0</td>
+          </tr>
+          <tr>
+            <th><i class="fa-solid fa-rectangle-vertical fa-bounce" style="color: #FFD43B;"></i>
+              &nbsp;Yellow Card
+            </th>
+              <td id="yellowCards">0</td>
+          </tr>
+          <tr>
+            <th><i class="fa-solid fa-rectangle-vertical fa-bounce" style="color: #ff0000;"></i>
+              &nbsp;Red Card
+            </th>
+              <td id="redCards">0</td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <th colspan="2" style="text-align: center; font-size: 1.1rem; color: var(--primary-color);">
+              Personal Stats
+            </th>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-line-height fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Height
+            </th>
+              <td>5' 4"</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-weight-scale fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Weight
+            </th>
+              <td>60 kg</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-calendar-days fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;DOB
+            </th>
+              <td>23/05/2007</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-location-dot fa-bounce" style="--fa-primary-color: #e39c12; --fa-primary-opacity: 0.4; --fa-secondary-color: #e39c12; --fa-secondary-opacity: 1;"></i>
+              &nbsp;Nationality
+            </th>
+              <td><img width="25" height="25" src="https://img.icons8.com/color/50/india.png" alt="india"/></td>
+          </tr>
+          <tr>
+            <th colspan="2" style="text-align: center; font-size: 1.1rem; color: var(--primary-color);">
+              XP & OVR Tracker&nbsp;
+              <!-- Info Icon (Click to Open Modal) -->
+              <i class="fa-solid fa-circle-info pop-tracker-btn" onclick="openModal()"></i>
+            </th>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-list-check fa-bounce" style="--fa-primary-color: #f39c12; --fa-secondary-color: #f39c12;"></i>
+              &nbsp;OVR 
+            </th>
+              <td><span id="ovr">40</span></td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-badge-check fa-bounce" style="--fa-primary-color: #f39c12; --fa-primary-opacity: 0.4; --fa-secondary-color: #f39c12; --fa-secondary-opacity: 1;"></i>
+              &nbsp;XP
+            </th>
+              <td><span id="xp">0</span> / <span id="xpRequired">100</span></td>
+          </tr>
+          <tr>
+            <th colspan="2">
+              <div class="xp-bar">
+                <div class="xp-fill" id="xpFill"></div>
+                <div class="xp-text" id="xpText">0%</div>
+              </div>
+            </th>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal (Hidden by Default) -->
+  <div id="modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation();">
+      <section class="pop-media-section">
+        <div class="container">
+          <h2>OVR Upgrades</h2>
+          <div id="tablesContainer" class="pop-table">
+            <!-- Tables will be inserted here -->
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <!-- Column 1: Brand & Description -->
+      <div class="footer-col footer-brand">
+        <img src="/EFL/static/images/logo.png" alt="logo" width="250px">
+        <p>
+          The EFL is a premier football competition designed to bring together young football enthusiasts from the local community to showcase their skills, foster teamwork and promote sportsmanship. It is structured to ensure fair play and provide an opportunity for players to gain exposure and experience in a competitive environment. Whether it is skillful dribbling, powerful shots or strategic teamwork, this tournament will be an exciting opportunity for the participants to grow and enjoy the beautiful game.
+        </p>
+      </div>
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/EFL/pending.html">POTM</a></li>
+          <li><a href="/EFL/pending.html">Gallery</a></li>
+          <li><a href="/EFL/leaderboards.html">Leaderboards</a></li>
+          <li><a href="/EFL/instructions.html">Instructions</a></li>
+          <li><a href="/EFL/players.html">Players Comparison</a></li>
+        </ul>
+      </div>
+      <!-- Column 3: Social Media -->
+      <div class="footer-col footer-social">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="https://t.me/+JYXVYTNSelIwMjdl" target="_blank" aria-label="Telegram"><i class="fa-regular fa-paper-plane"></i></a>
+          <a href="https://mail.google.com/mail/u/0/#inbox?compose=GTvVlcSDbSFGCqjrPNbZNRmDPHwPPGShlNVTdFvWzfLndvjddqGhSSZMhqbSCWwJwdqTkZhbgbKTp" target="_blank" aria-label="Gmail"><i class="fa-regular fa-envelope"></i></a>
+          <a href="/EFL/pending.html" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 EFL. All Rights Reserved.
+    </div>
+  </footer>
+
+  <!-- JavaScript for Mobile Navigation -->
+  <script>
+
+const minDisplayTime = 1000; // minimum time to show preloader (1 seconds)
+    const startTime = Date.now();
+    
+    function hidePreloader() {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, minDisplayTime - elapsed);
+      
+      setTimeout(() => {
+        const preloader = document.getElementById('buffer');
+        // Calculate a dynamic fade-out duration based on load time.
+        // If the page took more than 3 seconds, we'll set a longer fade-out up to 2 seconds.
+        let fadeDuration = 0.5; // default 0.5 seconds
+        if (elapsed > minDisplayTime) {
+          // For every extra second (1000ms) above the minimum, add 0.3s, up to 2 seconds max.
+          fadeDuration = Math.min(0.5 + ((elapsed - minDisplayTime) / 1000) * 0.3, 2);
+        }
+        preloader.style.transition = `opacity ${fadeDuration}s ease-out`;
+        preloader.offsetWidth; // force reflow
+        preloader.style.opacity = "0";
+        
+        setTimeout(() => {
+          preloader.style.display = "none";
+          document.getElementById('content').style.opacity = "1";
+        }, fadeDuration * 1000);
+      }, remaining);
+    }
+    
+    window.addEventListener('load', hidePreloader);
+    
+    // Fallback: hide preloader after 10 seconds max.
+    setTimeout(hidePreloader, 10000);
+
+    
+    // Get the scroll-to-top button element
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    
+    // Function to show/hide the button based on scroll position
+    function toggleScrollButton() {
+      // Show the button if scrolled more than 100px, hide otherwise
+      if (window.pageYOffset > 100) {
+        scrollToTopBtn.style.display = 'flex';
+      } else {
+        scrollToTopBtn.style.display = 'none';
+      }
+    }
+    
+    // Listen for scroll events
+    window.addEventListener('scroll', toggleScrollButton);
+    
+    // Call the function once on page load in case the page is not at the top
+    toggleScrollButton();
+    
+    // Add click event to smoothly scroll to the top when the button is clicked
+    scrollToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    const burger = document.querySelector('.burger');
+    const navLinks = document.querySelector('.nav-links');
+
+    burger.addEventListener('click', () => {
+      navLinks.classList.toggle('nav-active');
+      navLinks.querySelectorAll('li').forEach((link, index) => {
+        if (link.style.animation) {
+          link.style.animation = '';
+        } else {
+          link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
+        }
+      });
+      burger.classList.toggle('toggle');
+    });
+
+    const styleSheet = document.createElement('style');
+    styleSheet.type = 'text/css';
+    styleSheet.innerText = `
+      @keyframes navLinkFade {
+        from {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      .burger.toggle .line1 {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+      .burger.toggle .line2 {
+        opacity: 0;
+      }
+      .burger.toggle .line3 {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+    `;
+    document.head.appendChild(styleSheet);
+
+
+
+   
+
+
+
+    function openModal() {
+      document.getElementById("modal").style.display = "flex";
+    }
+
+    function closeModal(event) {
+      // Close modal if clicked outside the modal content or on close button
+      var modal = document.getElementById("modal");
+      if (!event || event.target.id === "modal") {
+        modal.style.display = "none";
+      }
+    }
+
+
+      // For XP & OVR Tracker
+        function getStat(id) {
+            return parseInt(document.getElementById(id).textContent) || 0;
+        }
+        
+        function calculateXP() {
+            let xp = (getStat("goals") * 8) 
+                    +(getStat("assists") * 5)
+                    +(getStat("shots") * 2)
+                    +(getStat("matchesPlayed") * 2)
+                    +(getStat("starts") * 3)
+                    +(getStat("minutesPlayed") / 10)
+                    +(getStat("penaltiesScored") * 5)
+                    -(getStat("yellowCards") * 2)
+                    -(getStat("redCards") * 5);
+            return Math.max(0, xp);
+        }
+        
+        function getXPRequired(ovr) {
+          let level = ovr - 40;
+          return 100 + (level * 100) + (level * (level + 1) / 2) * 50;
+        }
+
+
+
+        function updateXP() {
+            let ovr = 40;
+            let xp = calculateXP();
+            let xpRequired = getXPRequired(ovr);
+
+            while (xp >= xpRequired) {
+                xp -= xpRequired;
+                ovr++;
+                xpRequired = getXPRequired(ovr);
+            }
+            
+            document.getElementById("ovr").textContent = ovr;
+            document.getElementById("xp").textContent = xp.toFixed(2);
+            document.getElementById("xpRequired").textContent = xpRequired;
+            let progress = (xp / xpRequired) * 100;
+            document.getElementById("xpFill").style.width = progress + "%";
+            document.getElementById("xpText").textContent = Math.floor(progress) + "%";
+        }
+        
+        
+        function generateTables(startLevel, totalLevels, levelsPerTable) {
+            let container = document.getElementById("tablesContainer");
+            container.innerHTML = ""; // Clear previous content
+
+            for (let i = 0; i < totalLevels / levelsPerTable; i++) {
+                let tableWrapper = document.createElement("div");
+                tableWrapper.classList.add("table-wrapper");
+
+                let start = startLevel + i * levelsPerTable;
+                let end = start + levelsPerTable;
+
+                let tableHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="text-align: left; color: var(--primary-color);">
+                                  OVR Upgrade
+                                </th>
+                                <td style="text-align: right; color: var(--primary-color); font-weight: 900;">
+                                  XP Required
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+                for (let j = 0; j < levelsPerTable; j++) {
+                    let ovr = start + j;
+                    let xpRequired = getXPRequired(ovr);
+                    tableHTML += `<tr>
+                                    <th>
+                                      <i class="fa-duotone fa-solid fa-list-check fa-bounce" style="--fa-primary-color: #f39c12; --fa-secondary-color: #f39c12;"></i>
+                                      &nbsp;${ovr} - ${ovr + 1}
+                                    </th>
+                                    <td>${xpRequired}</td>
+                                  </tr>`;
+                }
+
+                tableHTML += `</tbody></table>`;
+                tableWrapper.innerHTML = tableHTML;
+                container.appendChild(tableWrapper);
+            }
+        }
+
+        // Generate separate tables for every 10 levels (40-100)
+        generateTables(40, 60, 10);
+
+
+        
+        updateXP();
+
+
+
+
+       
+    </script>
+</body>
+</html>

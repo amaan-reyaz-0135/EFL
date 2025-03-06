@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EFL - Home</title>
+  <!-- Font Awesome Icons Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Fav Icon -->
+  <link rel="icon" href="static/images/fav.png" type="image/x-icon">
+  <!-- Static Links -->
+  <link rel="stylesheet" href="static/style.css">
+
+  <style>
+    /* Two background layers for fade effect */
+    .bg-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: opacity 1s ease-in;
+    }
+    .bg1 { opacity: 1; }
+    .bg2 { opacity: 0; }
+
+
+    /* Sections */
+    .content-grid {
+      text-align: center;
+      padding: 10px;
+      display: grid;
+      gap: 2rem;
+      justify-content: center;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 290px));
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--box-shdw);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shdw-how);
+    }
+    .card img {
+      width: 100%;
+      display: block;
+    }
+    .card-content {
+      padding: 1.1rem 1.5rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .card-content h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      color: var(--primary-color);
+    }
+    .card-content p {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 0;
+      text-align: justify;
+    }
+    .card-content h4 {
+      font-size: 0.85rem;
+      text-align: right;
+      color: var(--foot-btm);
+      margin-top: auto;
+      padding-top: 0.5rem;
+    }
+    
+    /* Preloader overlay covering the entire viewport */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, #1a1a1a, #333, #1a1a1a, #333);
+      background-size: 400% 400%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.5s ease-out;
+      animation: gradientAnimation 10s ease infinite;
+    }
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Floating bubbles (8 bubbles) */
+    .bubble-top {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      animation: floatBubbleDown 4s linear infinite;
+    }
+    
+    .bubble-top:nth-child(1) { width: 25px; height: 25px; top: -25px; left: 25%; animation-delay: 0.5s; }
+    .bubble-top:nth-child(2) { width: 15px; height: 15px; top: -30px; left: 40%; animation-delay: 1s; }
+    .bubble-top:nth-child(3) { width: 20px; height: 20px; top: -20px; left: 55%; animation-delay: 1.5s; }
+    .bubble-top:nth-child(4) { width: 25px; height: 25px; top: -25px; left: 70%; animation-delay: 2s; }
+    .bubble-top:nth-child(5) { width: 30px; height: 30px; top: -30px; left: 80%; animation-delay: 2.5s; }
+    .bubble-top:nth-child(6) { width: 15px; height: 15px; top: -15px; left: 35%; animation-delay: 3s; }
+    @keyframes floatBubbleDown {
+      0% { transform: translateY(150) scale(0.8); opacity: 0.7; }
+      50% { transform: translateY(150px) scale(1.2); opacity: 0.3; }
+      100% { transform: translateY(0) scale(0.8); opacity: 0.7; }
+    }
+
+    /* Floating bubbles from bottom */
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(227, 156, 18, 0.3);
+      animation: floatBubble 4s linear infinite;
+    }
+    /* Bottom bubbles */
+    .bubble.bottom:nth-child(1) { width: 20px; height: 20px; bottom: -20px; left: 10%; animation-delay: 0s; }
+    .bubble.bottom:nth-child(2) { width: 25px; height: 25px; bottom: -25px; left: 25%; animation-delay: 0.5s; }
+    .bubble.bottom:nth-child(3) { width: 30px; height: 30px; bottom: -30px; left: 40%; animation-delay: 1s; }
+    .bubble.bottom:nth-child(4) { width: 20px; height: 20px; bottom: -20px; left: 55%; animation-delay: 1.5s; }
+    .bubble.bottom:nth-child(5) { width: 25px; height: 25px; bottom: -25px; left: 70%; animation-delay: 2s; }
+    .bubble.bottom:nth-child(6) { width: 30px; height: 30px; bottom: -30px; left: 80%; animation-delay: 2.5s; }
+    .bubble.bottom:nth-child(7) { width: 15px; height: 15px; bottom: -15px; left: 35%; animation-delay: 3s; }
+    .bubble.bottom:nth-child(8) { width: 20px; height: 20px; bottom: -20px; left: 90%; animation-delay: 3.5s; }
+    /* Top bubbles */
+    .bubble.top {
+      animation: floatBubbleTop 4s linear infinite;
+    }
+    .bubble.top:nth-child(9)  { width: 20px; height: 20px; top: -20px; left: 15%; animation-delay: 0.5s; }
+    .bubble.top:nth-child(10) { width: 25px; height: 25px; top: -25px; left: 35%; animation-delay: 1s; }
+    .bubble.top:nth-child(11) { width: 30px; height: 30px; top: -30px; left: 55%; animation-delay: 1.5s; }
+    .bubble.top:nth-child(12) { width: 20px; height: 20px; top: -20px; left: 75%; animation-delay: 2s; }
+    @keyframes floatBubble {
+      0% { transform: translateY(0) scale(0.8); opacity: 0.7; }
+      50% { transform: translateY(-150px) scale(1.2); opacity: 0.3; }
+      100% { transform: translateY(0) scale(0.8); opacity: 0.7; }
+    }
+    @keyframes floatBubbleTop {
+      0% { transform: translateY(0) scale(0.8); opacity: 0.7; }
+      50% { transform: translateY(150px) scale(1.2); opacity: 0.3; }
+      100% { transform: translateY(0) scale(0.8); opacity: 0.7; }
+    }
+
+    /* Bouncing logo (only bounce effect) */
+    #preloader-logo {
+      width: 280px;
+      animation: bounce 2s infinite;
+      z-index: 2;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    /* The GIF image used as the preloader */
+    #preloader-video {
+      width: 320px;
+      height: 180px;
+      border: 2px solid var(--primary-color);
+      border-radius: 10px;
+    }
+    #preloader h4 {
+      color: var(--primary-color);
+      text-align: center;
+      font-weight: 500;
+      font-size: 10px;
+    }
+
+
+
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      overflow-x: scroll;
+    }
+    .controls button,
+    .event button,
+    .toggle-btn {
+      min-width: 95px;
+      padding: 12px 15px;
+      margin: 5px;
+      border: none;
+      cursor: pointer;
+      border-radius: 22px;
+      font-weight: bold;
+      transition: 0.3s;
+      color: #fff;
+      font-size: 0.9rem;
+      box-shadow: var(--box-shdw);
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    .event button {
+      min-width: 50px;
+    }
+
+    .all-btn { background: var(--primary-color); }
+    .leg-btn { background: #2ed573; }
+    .mch-btn { background: #1e90ff; }
+    .plr-btn { background: #ff4757; }
+    
+    .event-list {
+      text-align: left;
+    }
+    .event {
+      width: 97%;
+      padding: 18px;
+      margin: 10px auto;
+      border-left: 6px solid;
+      border-radius: 6px;
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--box-shdw);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .event:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shdw-how);
+    }
+    .event-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .event-details strong {
+      font-size: 1.25rem;
+    }
+    .event-details p {
+      text-align: left;
+      margin: 0 5px 0 0;
+      color: #555;
+    }
+    .event-details span {
+      color: var(--foot-btm);
+    }
+    .players { border-color: #ff4757; }
+    .matches { border-color: #1e90ff; }
+    .league { border-color: #2ed573; }
+    .toggle-btn {
+      display: none;
+      margin: 15px auto 8px;
+      background-color: var(--primary-color);
+      border-radius: 5px;
+    }
+    @media (max-width: 768px) {
+      .controls {
+      justify-content: left;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Preloader: a full-screen overlay with a looping GIF -->
+  <div id="preloader">
+
+    <!-- Bottom bubbles (8 bubbles) -->
+    <div class="bubble bottom"></div>
+    <div class="bubble bottom"></div>
+    <div class="bubble bottom"></div>
+    <div class="bubble bottom"></div>
+    <div class="bubble bottom"></div>
+    <div class="bubble bottom"></div>
+    <div class="bubble bottom"></div>
+    <div class="bubble bottom"></div>
+    
+    <!-- Top bubbles (4 bubbles) -->
+    <div class="bubble top"></div>
+    <div class="bubble top"></div>
+    <div class="bubble top"></div>
+    <div class="bubble top"></div>
+
+    <img id="preloader-logo" src="static/images/logo.png" alt="logo">
+    <br>
+    <h4>Some pages are still under development. Stay tuned!</h4>
+    <video id="preloader-video" autoplay loop muted playsinline>
+      <source src="static/images/loading.mp4" type="video/mp4">
+  </div>
+
+  <!-- Header & Navigation -->
+  <header>
+    <nav class="container">
+      <div class="logo">
+        <a href="index.html"><img src="static/images/logo.png" alt="logo" width="240px"></a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html" style="color: #f39c12;">Home</a></li>
+        <li><a href="tournaments.html">Tournaments</a></li>
+        <li><a href="teams.html">Teams</a></li>
+        <li><a href="players.html">Players</a></li>
+        <li><a href="pending.html">Awards</a></li>
+      </ul>
+      <div class="burger">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Static Scroll-to-Top Button -->
+  <a href="#top" id="scrollToTop" aria-label="Scroll to Top"><i class="fa-solid fa-arrow-up"></i></a>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="hero">
+    <!-- Background Layers -->
+    <div class=" hero bg-layer bg1" id="bg1"></div>
+    <div class=" hero bg-layer bg2" id="bg2"></div>
+    <!-- Optional Overlay Text -->
+    <div class="slide-overlay">
+      <h1>Welcome to EFL</h1>
+      <p>Where Passion Meets Excellence.</p>
+      <a href="https://forms.gle/i7zT9C9YVAAtvs6w5" target="_blank" class="btn">Join Now</a>
+    </div>
+  </section>
+
+  <!-- Upcoming Matches Section -->
+  <section class="media-section">
+    <div class="container">
+      <h2>Feature Updates</h2>
+      <div class="content-grid">
+        <!-- Updates Card -->
+        <div class="card">
+          <img src="static/images/upd-crd-13.webp" alt="Match 1" />
+          <div class="card-content">
+            <h3>Events Calender Feature</h3>
+            <p>The Events Calendar keeps track of key dates related to players, matches, and the league. It highlights upcoming fixtures, player milestones, and league events, ensuring everyone stay updated with all essential schedules and activities.</p>
+            <h4>Added On: 05/03/2025</h4>
+          </div>
+        </div>
+        <!-- Updates Card -->
+        <div class="card">
+          <img src="static/images/upd-crd-12.webp" alt="Match 1" />
+          <div class="card-content">
+            <h3>Feature Updates Section</h3>
+            <p>The Feature Updates section keeps users informed about the enhancements, improvements & new functionalities across the platform. Keep track of every update as the platform evolves.</p>
+            <h4>Added On: 04/03/2025</h4>
+          </div>
+        </div>
+        <!-- Updates Card -->
+        <div class="card">
+          <img src="static/images/upd-crd-11.webp" alt="Match 1" />
+          <div class="card-content">
+            <h3>Leaderboards Page</h3>
+            <p>The Leaderboards Page ranks the best performers across offensive, defensive, & performance categories. It highlights top scorers, playmakers, defenders, & overall impact players, dynamically updating based on in-game stats.</p>
+            <h4>Added On: 03/03/2025</h4>
+          </div>
+        </div>
+        <!-- Updates Card -->
+        <div class="card">
+          <img src="static/images/upd-crd-10.webp" alt="Match 1" />
+          <div class="card-content">
+            <h3>Live XP & OVR Tracker</h3>
+            <p>The Live XP and OVR Tracker dynamically updates as players gain XP from stats like goals, assists, matches played, etc. As XP increases, the player's OVR improves, visually represented by a progress bar.</p>
+            <h4>Added On: 01/03/2025</h4>
+          </div>
+        </div>
+        <!-- Updates Card -->
+        <div class="card">
+          <img src="static/images/upd-crd-9.webp" alt="Match 1" />
+          <div class="card-content">
+            <h3>Players Comparison Feature</h3>
+            <p>The Players Comparison Feature allows users to compare two players side by side with detailed stats like goals, assists, and more. A dynamic graph visually represents their performance, making analysis quick and interactive.</p>
+            <h4>Added On: 26/02/2025</h4>
+          </div>
+        </div>
+        <!-- Updates Card -->
+        <div class="card">
+          <img src="static/images/upd-crd-8.webp" alt="Match 1" />
+          <div class="card-content">
+            <h3>Player Info Page</h3>
+            <p>The Player Info Page displays a dynamic player card with complete stats like goals, assists, and much more. It includes physical details such as height, weight, etc.</p>
+            <h4>Added On: 22/02/2025</h4>
+          </div>
+        </div>
+        <!-- Updates Card -->
+        <div class="card">
+          <img src="static/images/upd-crd-7.webp" alt="Match 1" />
+          <div class="card-content">
+            <h3>Players Page</h3>
+            <p>The Players Page features all player names with dynamic cards displaying their stats. It includes a live search bar for quick filtering and pagination for easy navigation through the player list.</p>
+            <h4>Added On: 20/02/2025</h4>
+          </div>
+        </div>
+        <!-- Updates Card -->
+        <div class="card">
+          <img src="static/images/upd-crd-6.webp" alt="Match 1" />
+          <div class="card-content">
+            <h3>Teams Page</h3>
+            <p>The Teams Page displays all team names, logos, and squad details, including captains and player rosters. It also tracks each team's total goals scored throughout the competition.</p>
+            <h4>Added On: 17/02/2025</h4>
+          </div>
+        </div>
+        <!-- Updates Card -->
+        <div class="card">
+          <img src="static/images/upd-crd-5.webp" alt="Match 1" />
+          <div class="card-content">
+            <h3>Instructions Page</h3>
+            <p>The Instructions Page provides a clear and concise overview of all rules and regulations, ensuring players and teams understand the guidelines. It covers eligibility criteria, match rules, conduct policies, and other essential rules for smooth and fair gameplay.</p>
+            <h4>Added On: 15/02/2025</h4>
+          </div>
+        </div>
+        <!-- Updates Card -->
+        <div class="card">
+          <img src="static/images/upd-crd-4.webp" alt="Match 1" />
+          <div class="card-content">
+            <h3>Tournament Results Page</h3>
+            <p>The Tournament Results Page summarizes the entire tournament, listing match winners, goals scored, leads, and man of the match awards, along with the ultimate tournament champion..</p>
+            <h4>Added On: 13/02/2025</h4>
+          </div>
+        </div>
+        <!-- Updates Card -->
+        <div class="card">
+          <img src="static/images/upd-crd-3.webp" alt="Match 1" />
+          <div class="card-content">
+            <h3>Tournament Info Page</h3>
+            <p>The Tournament Info Page provides complete tournament details, including match dates, times, and venues. It lists participating teams, total matches, tournament type, rewards, entry fee, and match durations.</p>
+            <h4>Added On: 10/02/2025</h4>
+          </div>
+        </div>
+        <!-- Updates Card -->
+        <div class="card">
+          <img src="static/images/upd-crd-2.webp" alt="Match 1" />
+          <div class="card-content">
+            <h3>Tournaments Page</h3>
+            <p>The Tournaments Page showcases upcoming, ongoing, and completed tournaments, providing detailed information, match schedules, results, and team performance insights.</p>
+            <h4>Added On: 08/02/2025</h4>
+          </div>
+        </div>
+        <!-- Updates Card -->
+        <div class="card">
+          <img src="static/images/upd-crd-1.webp" alt="Match 1" />
+          <div class="card-content">
+            <h3>Home Page</h3>
+            <p>Access every feature with ease; player stats, team rankings, leaderboards, and tournaments. Stay updated on the latest enhancements, track upcoming events in the calendar, and register to join the action.</p>
+            <h4>Added On: 04/02/2025</h4>
+          </div>
+        </div>
+        <!-- Add more match cards as needed -->
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button id="prevBtn" onclick="prevPage()">Previous</button>
+        <span id="pageIndicator">1 of X</span>
+        <button id="nextBtn" onclick="nextPage()">Next</button>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Latest News Section -->
+  <section class="media-section">
+    <div class="container">
+      <h2>Events Calender</h2>
+      <div class="controls">
+        <button class="all-btn" onclick="resetEvents()">All</button>
+        <button class="leg-btn" onclick="filterEvents('league')">League</button>
+        <button class="mch-btn" onclick="filterEvents('matches')">Matches</button>
+        <button class="plr-btn" onclick="filterEvents('players')">Players</button>
+      </div>
+      <div class="event-list" id="eventList">
+        <div class="event league">
+          <div class="event-details">
+            <strong>Website Development.</strong>
+            <p>The league's online presence begins as development kicks off.</p>
+            <span><b>Dated:</b> 04-02-2025</span>
+          </div>
+        </div>
+        <div class="event matches">
+          <div class="event-details">
+            <strong>First Tournament Final.</strong>
+            <p>The grand finale of the inaugural tournament, where the first-ever champion is crowned.</p>
+            <span><b>Dated:</b> 04-02-2025</span>
+          </div>
+          <a href="relatives/tournaments/tt-result.html"><button class="mch-btn">INFO</button></a>
+        </div>
+        <div class="event players">
+          <div class="event-details">
+            <strong>First 5-Assist Masterclass.</strong>
+            <p>Tawheed Wani becomes the first player to provide five assists in a single match, showcasing incredible playmaking skills.</p>
+            <span><b>Dated:</b> 02-02-2025</span>
+          </div>
+          <a href="relatives/players/tawheed-wani.html"><button class="plr-btn">INFO</button></a>
+        </div>
+        <div class="event players">
+          <div class="event-details">
+            <strong>First 5-Goal Haul.</strong>
+            <p>Nabeel makes history by becoming the first player to score five goals in a single match.</p>
+            <span><b>Dated:</b> 02-02-2025</span>
+          </div>
+          <a href="relatives/players/nabeel.html"><button class="plr-btn">INFO</button></a>
+        </div>
+        <div class="event players">
+          <div class="event-details">
+            <strong>Second MOTM.</strong>
+            <p>A stellar performance earns Sarhan Shafi the league's second-ever Man of the Match award.</p>
+            <span><b>Dated:</b> 02-02-2025</span>
+          </div>
+          <a href="relatives/players/sarhan-shafi.html"><button class="plr-btn">INFO</button></a>
+        </div>
+        <div class="event matches">
+          <div class="event-details">
+            <strong>Second Fixture.</strong>
+            <p>The second scheduled match in the league's history, continuing the competition.</p>
+            <span><b>Dated:</b> 02-02-2025</span>
+          </div>
+          <a href="relatives/tournaments/tt-result.html"><button class="mch-btn">INFO</button></a>
+        </div>
+        <div class="event players">
+          <div class="event-details">
+            <strong>First MOTM.</strong>
+            <p>Nabeel delivers a stellar performance, earning the league's first-ever Man of the Match award.</p>
+            <span><b>Dated:</b> 02-02-2025</span>
+          </div>
+          <a href="relatives/players/nabeel.html"><button class="plr-btn">INFO</button></a>
+        </div>
+        <div class="event matches">
+          <div class="event-details">
+            <strong>Opening Match.</strong>
+            <p>The first-ever match played in the league, kicking off the competition.</p>
+            <span><b>Dated:</b> 02-02-2025</span>
+          </div>
+          <a href="relatives/tournaments/tt-result.html"><button class="mch-btn">INFO</button></a>
+        </div>
+        <div class="event matches">
+          <div class="event-details">
+            <strong>Inaugural Tournament.</strong>
+            <p>The very first tournament in league history, setting the stage for future competitions.</p>
+            <span><b>Dated:</b> 01-02-2025</span>
+          </div>
+          <a href="relatives/tournaments/tt-info.html"><button class="mch-btn">INFO</button></a>
+        </div>
+        <div class="event league">
+          <div class="event-details">
+            <strong>Second Team Founded.</strong>
+            <p>Storm Breakers emerges as the second team in the league, setting up an exciting rivalry.</p>
+            <span><b>Dated:</b> 31-01-2025</span>
+          </div>
+          <a href="teams.html"><button class="leg-btn">INFO</button></a>
+        </div>
+        <div class="event league">
+          <div class="event-details">
+            <strong>First Team Founded.</strong>
+            <p>Thunder Bolts becomes the first-ever team to be established in the league, making history.</p>
+            <span><b>Dated:</b> 30-01-2025</span>
+          </div>
+          <a href="teams.html"><button class="leg-btn">INFO</button></a>
+        </div>
+        <div class="event league">
+          <div class="event-details">
+            <strong>League Founded.</strong>
+            <p>The official establishment of the league, marking its beginning.</p>
+            <span><b>Dated:</b> 16-01-2025</span>
+          </div>
+        </div>
+      </div>
+      <button class="toggle-btn" id="viewMoreBtn" onclick="showMoreEvents()">Show More</button>
+      <button class="toggle-btn" id="showLessBtn" onclick="showLessEvents()">Show Less</button>
+  </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <!-- Column 1: Brand & Description -->
+      <div class="footer-col footer-brand">
+        <img src="static/images/logo.png" alt="logo" width="250px">
+        <p>
+          The EFL is a premier football competition designed to bring together young football enthusiasts from the local community to showcase their skills, foster teamwork and promote sportsmanship. It is structured to ensure fair play and provide an opportunity for players to gain exposure and experience in a competitive environment. Whether it is skillful dribbling, powerful shots or strategic teamwork, this tournament will be an exciting opportunity for the participants to grow and enjoy the beautiful game.
+        </p>
+      </div>
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="pending.html">POTM</a></li>
+          <li><a href="pending.html">Gallery</a></li>
+          <li><a href="leaderboards.html">Leaderboards</a></li>
+          <li><a href="instructions.html">Instructions</a></li>
+          <li><a href="players.html">Players Comparison</a></li>
+        </ul>
+      </div>
+      <!-- Column 3: Social Media -->
+      <div class="footer-col footer-social">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="https://t.me/+JYXVYTNSelIwMjdl" target="_blank" aria-label="Telegram"><i class="fa-regular fa-paper-plane"></i></a>
+          <a href="https://mail.google.com/mail/u/0/#inbox?compose=GTvVlcSDbSFGCqjrPNbZNRmDPHwPPGShlNVTdFvWzfLndvjddqGhSSZMhqbSCWwJwdqTkZhbgbKTp" target="_blank" aria-label="Gmail"><i class="fa-regular fa-envelope"></i></a>
+          <a href="pending.html" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 EFL. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script src="main.js" defer></script>
+
+</body>
+</html>

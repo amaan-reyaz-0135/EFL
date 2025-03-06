@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EFL - Trilogy Tournament</title>
+  <!-- Font Awesome Icons Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Teko:wght@300..700&display=swap" rel="stylesheet"><!-- Fav Icon -->
+  <link rel="icon" href="/EFL/static/images/fav.png" type="image/x-icon">
+  <!-- Link to All Font Awesome Icons -->
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
+  <!-- Static Links -->
+  <link rel="stylesheet" href="/EFL/static/style.css">
+
+  <style>
+    /* Hero Section */
+    .hero {
+      background: url('/EFL/static/images/pc-tt.png') no-repeat center center/cover;
+      background-attachment: fixed;
+    }
+
+    /* Tournaments Section */
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px;
+      margin-top: 20px;
+    }
+
+    /* Individual Card Wrapper */
+    .card-wrapper {
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: var(--box-shdw);
+      border: 2px solid var(--primary-color);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-wrapper:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    }
+    .card-wrapper img {
+      width: 100%;
+    }
+    .player-card {
+      width: 150px;
+      height: 220px;
+      background: linear-gradient(135deg, #FFD700, #FF4500);
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+
+    table {
+      width: 280px;
+      border: 2px solid var(--primary-color);
+      background-color: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: var(--box-shdw);
+    }
+    table th {
+      text-align: left;
+      border-bottom: 2px solid #eee;
+    }
+    table td {
+      text-align: right;
+      border-bottom: 2px solid #eee;
+    }
+    @media (max-width: 768px) {
+      .hero {
+        background: url("/EFL/static/images/ph-tt.png") no-repeat center center/cover;
+        background-attachment: fixed;
+      }
+      .media-block {
+        display: block;
+        font-size: 0.8rem;
+        margin: 0.5rem 0 0 0;
+      }
+      .media-section img {
+        width: 280px;
+        margin: 0;
+      }
+      .media-section {
+        display: block;
+      }
+      .container {
+        margin: 0 0 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preloader: a full-screen overlay with a looping GIF -->
+  <div id="buffer">
+    <img id="buffer-gif" autoplay loop muted playsinline src="/EFL/static/images/loading.gif">
+  </div>
+  
+  <!-- Header & Navigation -->
+  <header>
+    <nav class="container">
+      <div class="logo">
+        <a href="/index.html"><img src="/EFL/static/images/logo.png" alt="logo" width="240px"></a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/EFL/index.html">Home</a></li>
+        <li><a href="/EFL/tournaments.html" style="color: #f39c12;">Tournaments</a></li>
+        <li><a href="/EFL/teams.html">Teams</a></li>
+        <li><a href="/EFL/players.html">Players</a></li>
+        <li><a href="/EFL/pending.html">Awards</a></li>
+      </ul>
+      <div class="burger">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Static Scroll-to-Top Button -->
+  <a href="#top" id="scrollToTop" aria-label="Scroll to Top"><i class="fa-solid fa-arrow-up"></i></a>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-overlay">
+      <h1>Trilogy Tournament</h1>
+      <p>Presented By EFL.</p>
+    </div>
+  </section>
+
+  <!-- Match Format Section -->
+  <section class="media-section">
+    <div class="container">
+      <h2>Details</h2>
+      <p>
+        <b>WELCOME TO THE TRILOGY TOURNAMENT!</b>
+        <br><br>
+        On <b>02 February, 2025, Joggers Park</b> became the battleground for the thrilling <b>Trilogy Tournament,</b> featuring a fierce rivalry between <b>Thunder Bolts</b> and <b>Storm Breakers.</b> The tournament followed a <b>Best-Of-Three</b> format, with each match lasting <b>30 minutes,</b> creating a high-intensity showdown. Both teams paid an <b>entry fee</b> of <b>₹250,</b> competing not just for pride but also for the <b>₹400</b> prize awaiting the winners.
+        <br><br>
+        The <b>first match</b> saw <b>Storm Breakers</b> come out strong, dominating the game with a commanding <b>6-2 victory,</b> setting the tone for the <b>series.</b> However, the <b>second match</b> became an instant classic, as <b>Thunder Bolts</b> raced to a <b>6-1 lead</b>, seemingly set to force a final decider. But <b>Storm Breakers</b> launched a breathtaking comeback, scoring <b>six consecutive goals</b> to take a <b>6-7 lead.</b> Just when it seemed like they had <b>sealed the win,</b> <b>Thunder Bolts</b> struck late, snatching a <b>dramatic 8-7 victory</b> and pushing the tournament into a decisive <b>third match.</b>
+        <br><br>
+        <b>Unfortunately,</b> the <b>final match</b> was <b>called off</b> due to <b>player unavailability</b> from <b>Thunder Bolts,</b> leading to <b>Storm Breakers</b> being declared the <b>winner of the tournament.</b> <b>Nabeel</b> was the tournament's <b>top scorer</b> with <b>7 goals,</b> while <b>Tawheed</b> and <b>Sarhan</b> both scored <b>4 goals</b> each, playing crucial roles for their teams. Despite a <b>rainy</b> and <b>slippery court,</b> the players fought hard, though it led to <b>Tawheed</b> suffering a <b>serious hand injury.</b>
+        <br><br>
+        Though the <b>tournament</b> ended under <b>unexpected circumstances,</b> the <b>Trilogy Tournament</b> delivered <b>breathtaking action, incredible resilience,</b> and an <b>unforgettable comeback story,</b> making it a truly <b>memorable event.</b>
+        <br><br>
+        With the <b>Trilogy Tournament</b> setting the <b>stage,</b> excitement is already building for the next <b>showdown.</b> <b>Bigger battles</b> and <b>intense rivalries</b> await — <b>Stay tuned for the next tournament!</b>
+      </p>
+    </div>
+  </section>
+
+  <!-- Player Stats Section -->
+  <section class="media-section">
+    <div class="container">
+      <h2>Summary</h2>
+      <!-- Player Cards -->
+      <div class="card-container" id="cardContainer">
+        <div class="card-wrapper" data-player="Amaan Riyaz">
+          <img src="/EFL/static/images/tt-result.png" alt="" srcset="">
+        </div>
+        <table>
+          <tr>
+            <th colspan="2" style="text-align: center; color: var(--primary-color);">Match 01</th>
+          </tr>
+          <tr>
+            <th>
+              <i class="fa-duotone fa-solid fa-trophy-star fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Winner
+            </th>
+            <td>Storm Breakers</td>
+          </tr>
+          <tr>
+            <th>
+              <i class="fa-duotone fa-solid fa-goal-net fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Goals
+            </th>
+            <td>6</td>
+          </tr>
+          <tr>
+            <th>
+              <i class="fa-duotone fa-solid fa-ranking-star fa-bounce" style="--fa-primary-color: #e39c12; --fa-primary-opacity: 0.4; --fa-secondary-color: #e39c12; --fa-secondary-opacity: 1;"></i>
+              &nbsp;Lead
+            </th>
+            <td>4</td>
+          </tr>
+          <tr>
+            <th style="border-bottom: 2px solid var(--primary-color);">
+              <i class="fa-duotone fa-solid fa-crown fa-bounce" style="--fa-primary-color: #f39c12; --fa-secondary-color: #f39c12;"></i>
+              &nbsp;MOTM
+            </th>
+            <td style="border-bottom: 2px solid var(--primary-color);">Nabeel</td>
+          </tr>
+          <tr>
+            <th colspan="2" style="text-align: center; color: var(--primary-color);">Match 02</th>
+          </tr>
+          <tr>
+            <th>
+              <i class="fa-duotone fa-solid fa-trophy-star fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Winner
+            </th>
+            <td>Thunder Bolts</td>
+          </tr>
+          <tr>
+            <th>
+              <i class="fa-duotone fa-solid fa-goal-net fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Goals
+            </th>
+            <td>8</td>
+          </tr>
+          <tr>
+            <th>
+              <i class="fa-duotone fa-solid fa-ranking-star fa-bounce" style="--fa-primary-color: #e39c12; --fa-primary-opacity: 0.4; --fa-secondary-color: #e39c12; --fa-secondary-opacity: 1;"></i>
+              &nbsp;Lead
+            </th>
+            <td>4</td>
+          </tr>
+          <tr>
+            <th style="border-bottom: 2px solid var(--primary-color);">
+              <i class="fa-duotone fa-solid fa-crown fa-bounce" style="--fa-primary-color: #f39c12; --fa-secondary-color: #f39c12;"></i>
+              &nbsp;MOTM
+            </th>
+            <td style="border-bottom: 2px solid var(--primary-color);">Sarhan Shafi</td>
+          </tr>
+          <tr>
+            <th colspan="2" style="text-align: center; color: var(--primary-color);">Match 03</th>
+          </tr>
+          <tr>
+            <th colspan="2" style="text-align: center;">
+              <i class="fa-duotone fa-solid fa-gavel fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Declared
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <i class="fa-duotone fa-solid fa-trophy-star fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Winner
+            </th>
+            <td>Storm Breakers</td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <th colspan="2" style="text-align: center; color: var(--primary-color);">Ultimate Winner</th>
+          </tr>
+          <tr>
+            <th colspan="2" style="text-align: center; border-bottom: 2px solid var(--primary-color);">
+              <i class="fa-duotone fa-solid fa-party-horn fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Storm Breakers&nbsp;
+              <i class="fa-duotone fa-solid fa-party-horn fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+            </th>
+          </tr>
+          <tr>
+            <th>T. Goals</th>
+            <td>13</td>
+          </tr>
+          <tr>
+            <th>T. Lead</th>
+            <td>3</td>
+          </tr>
+          <tr>
+            <th>T. Mins Played</th>
+            <td>60</td>
+          </tr>
+          <tr>
+            <th>T. Wins</th>
+            <td>2</td>
+          </tr>
+          <tr>
+            <th>T. Loses</th>
+            <td>1</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <!-- Column 1: Brand & Description -->
+      <div class="footer-col footer-brand">
+        <img src="/EFL/static/images/logo.png" alt="logo" width="250px">
+        <p>
+          The EFL is a premier football competition designed to bring together young football enthusiasts from the local community to showcase their skills, foster teamwork and promote sportsmanship. It is structured to ensure fair play and provide an opportunity for players to gain exposure and experience in a competitive environment. Whether it is skillful dribbling, powerful shots or strategic teamwork, this tournament will be an exciting opportunity for the participants to grow and enjoy the beautiful game.
+        </p>
+      </div>
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/EFL/pending.html">POTM</a></li>
+          <li><a href="/EFL/pending.html">Gallery</a></li>
+          <li><a href="/EFL/leaderboards.html">Leaderboards</a></li>
+          <li><a href="/EFL/instructions.html">Instructions</a></li>
+          <li><a href="/EFL/players.html">Players Comparison</a></li>
+        </ul>
+      </div>
+      <!-- Column 3: Social Media -->
+      <div class="footer-col footer-social">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="https://t.me/+JYXVYTNSelIwMjdl" target="_blank" aria-label="Telegram"><i class="fa-regular fa-paper-plane"></i></a>
+          <a href="https://mail.google.com/mail/u/0/#inbox?compose=GTvVlcSDbSFGCqjrPNbZNRmDPHwPPGShlNVTdFvWzfLndvjddqGhSSZMhqbSCWwJwdqTkZhbgbKTp" target="_blank" aria-label="Gmail"><i class="fa-regular fa-envelope"></i></a>
+          <a href="/EFL/pending.html" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 EFL. All Rights Reserved.
+    </div>
+  </footer>
+
+  <!-- JavaScript for Mobile Navigation -->
+  <script>
+
+    const minDisplayTime = 1000; // minimum time to show preloader (1 seconds)
+    const startTime = Date.now();
+    
+    function hidePreloader() {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, minDisplayTime - elapsed);
+      
+      setTimeout(() => {
+        const preloader = document.getElementById('buffer');
+        // Calculate a dynamic fade-out duration based on load time.
+        // If the page took more than 3 seconds, we'll set a longer fade-out up to 2 seconds.
+        let fadeDuration = 0.5; // default 0.5 seconds
+        if (elapsed > minDisplayTime) {
+          // For every extra second (1000ms) above the minimum, add 0.3s, up to 2 seconds max.
+          fadeDuration = Math.min(0.5 + ((elapsed - minDisplayTime) / 1000) * 0.3, 2);
+        }
+        preloader.style.transition = `opacity ${fadeDuration}s ease-out`;
+        preloader.offsetWidth; // force reflow
+        preloader.style.opacity = "0";
+        
+        setTimeout(() => {
+          preloader.style.display = "none";
+          document.getElementById('content').style.opacity = "1";
+        }, fadeDuration * 1000);
+      }, remaining);
+    }
+    
+    window.addEventListener('load', hidePreloader);
+    
+    // Fallback: hide preloader after 10 seconds max.
+    setTimeout(hidePreloader, 10000);
+
+
+
+    // Get the scroll-to-top button element
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    
+    // Function to show/hide the button based on scroll position
+    function toggleScrollButton() {
+      // Show the button if scrolled more than 100px, hide otherwise
+      if (window.pageYOffset > 100) {
+        scrollToTopBtn.style.display = 'flex';
+      } else {
+        scrollToTopBtn.style.display = 'none';
+      }
+    }
+    
+    // Listen for scroll events
+    window.addEventListener('scroll', toggleScrollButton);
+    
+    // Call the function once on page load in case the page is not at the top
+    toggleScrollButton();
+    
+    // Add click event to smoothly scroll to the top when the button is clicked
+    scrollToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    
+    const burger = document.querySelector('.burger');
+    const navLinks = document.querySelector('.nav-links');
+
+    burger.addEventListener('click', () => {
+      navLinks.classList.toggle('nav-active');
+      navLinks.querySelectorAll('li').forEach((link, index) => {
+        if(link.style.animation) {
+          link.style.animation = '';
+        } else {
+          link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
+        }
+      });
+      burger.classList.toggle('toggle');
+    });
+
+    const styleSheet = document.createElement('style');
+    styleSheet.type = 'text/css';
+    styleSheet.innerText = `
+      @keyframes navLinkFade {
+        from {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      .burger.toggle .line1 {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+      .burger.toggle .line2 {
+        opacity: 0;
+      }
+      .burger.toggle .line3 {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+    `;
+    document.head.appendChild(styleSheet);
+</script>
+  </script>
+</body>
+</html>

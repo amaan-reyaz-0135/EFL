@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EFL - Under Development</title>
+  <!-- Font Awesome Icons Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Fav Icon -->
+  <link rel="icon" href="static/images/fav.png" type="image/x-icon">
+  <!-- Static Links -->
+  <link rel="stylesheet" href="static/style.css">
+
+  <style>
+    /* Hero Section */
+    .hero {
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preloader: a full-screen overlay with a looping GIF -->
+  <div id="buffer">
+    <img id="buffer-gif" autoplay loop muted playsinline src="static/images/loading.gif">
+  </div>
+
+  <!-- Header & Navigation -->
+  <header>
+    <nav class="container">
+      <div class="logo">
+        <a href="index.html"><img src="static/images/logo.png" alt="logo" width="240px"></a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="tournaments.html">Tournaments</a></li>
+        <li><a href="teams.html">Teams</a></li>
+        <li><a href="players.html">Players</a></li>
+        <li><a href="pending.html">Awards</a></li>
+      </ul>
+      <div class="burger">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+      </div>
+    </nav>
+  </header>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-overlay">
+      <h1>
+        <i class="fa-solid fa-gear fa-spin" style="color: #ffffff;"></i>
+        <i class="fa-solid fa-gear fa-spin fa-spin-reverse" style="color: #ffffff;"></i>
+        <br>
+        Under Development
+      </h1>
+      <p>This page of website will be developed soon.</p>
+    </div>
+  </section>
+
+  <!-- JavaScript for Mobile Navigation -->
+  <script>
+
+    const minDisplayTime = 1000; // minimum time to show preloader (1 seconds)
+    const startTime = Date.now();
+    
+    function hidePreloader() {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, minDisplayTime - elapsed);
+      
+      setTimeout(() => {
+        const preloader = document.getElementById('buffer');
+        // Calculate a dynamic fade-out duration based on load time.
+        // If the page took more than 3 seconds, we'll set a longer fade-out up to 2 seconds.
+        let fadeDuration = 0.5; // default 0.5 seconds
+        if (elapsed > minDisplayTime) {
+          // For every extra second (1000ms) above the minimum, add 0.3s, up to 2 seconds max.
+          fadeDuration = Math.min(0.5 + ((elapsed - minDisplayTime) / 1000) * 0.3, 2);
+        }
+        preloader.style.transition = `opacity ${fadeDuration}s ease-out`;
+        preloader.offsetWidth; // force reflow
+        preloader.style.opacity = "0";
+        
+        setTimeout(() => {
+          preloader.style.display = "none";
+          document.getElementById('content').style.opacity = "1";
+        }, fadeDuration * 1000);
+      }, remaining);
+    }
+    
+    window.addEventListener('load', hidePreloader);
+    
+    // Fallback: hide preloader after 10 seconds max.
+    setTimeout(hidePreloader, 10000);
+
+
+
+
+    const burger = document.querySelector('.burger');
+    const navLinks = document.querySelector('.nav-links');
+
+    burger.addEventListener('click', () => {
+      navLinks.classList.toggle('nav-active');
+      navLinks.querySelectorAll('li').forEach((link, index) => {
+        if (link.style.animation) {
+          link.style.animation = '';
+        } else {
+          link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
+        }
+      });
+      burger.classList.toggle('toggle');
+    });
+
+    const styleSheet = document.createElement('style');
+    styleSheet.type = 'text/css';
+    styleSheet.innerText = `
+      @keyframes navLinkFade {
+        from {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      .burger.toggle .line1 {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+      .burger.toggle .line2 {
+        opacity: 0;
+      }
+      .burger.toggle .line3 {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+    `;
+    document.head.appendChild(styleSheet);
+
+  </script>
+</body>
+</html>

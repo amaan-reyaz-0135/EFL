@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EFL - Trilogy Tournament</title>
+  <!-- Font Awesome Icons Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Teko:wght@300..700&display=swap" rel="stylesheet"><!-- Fav Icon -->
+  <link rel="icon" href="/EFL/static/images/fav.png" type="image/x-icon">
+  <!-- Link to All Font Awesome Icons -->
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
+  <!-- Static Links -->
+  <link rel="stylesheet" href="/EFL/static/style.css">
+
+  <style>
+    /* Hero Section */
+    .hero {
+      background: url('/EFL/static/images/pc-tt.png') no-repeat center center/cover;
+      background-attachment: fixed;
+    }
+
+    /* Tournaments Section */
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px;
+      margin-top: 20px;
+    }
+
+    /* Individual Card Wrapper */
+    .card-wrapper {
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: var(--box-shdw);
+      border: 2px solid var(--primary-color);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-wrapper:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    }
+    .card-wrapper img {
+      width: 100%;
+    }
+    .player-card {
+      width: 150px;
+      height: 220px;
+      background: linear-gradient(135deg, #FFD700, #FF4500);
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+
+    table {
+      width: 280px;
+      border: 2px solid var(--primary-color);
+      background-color: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: var(--box-shdw);
+    }
+    table th {
+      text-align: left;
+      border-bottom: 2px solid #eee;
+    }
+    table td {
+      text-align: right;
+      border-bottom: 2px solid #eee;
+    }
+    .btn {
+      margin: 1rem 0;
+      display: inline-block;
+      background: var(--primary-color);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      transition: background 0.3s ease;
+    }
+    .btn:hover {
+      background: var(--secondary-color);
+      color: #fff;
+    }
+    
+    @media (max-width: 768px) {
+      .hero {
+        background: url("/EFL/static/images/ph-tt.png") no-repeat center center/cover;
+        background-attachment: fixed;
+      }
+      .media-block {
+        display: block;
+        font-size: 0.8rem;
+        margin: 0.5rem 0 0 0;
+      }
+      .media-section img {
+        width: 280px;
+        margin: 0;
+      }
+      .media-section {
+        display: block;
+      }
+      .container {
+        margin: 0 0 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preloader: a full-screen overlay with a looping GIF -->
+  <div id="buffer">
+    <img id="buffer-gif" autoplay loop muted playsinline src="/EFL/static/images/loading.gif">
+  </div>
+  
+  <!-- Header & Navigation -->
+  <header>
+    <nav class="container">
+      <div class="logo">
+        <a href="/index.html"><img src="/EFL/static/images/logo.png" alt="logo" width="240px"></a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/EFL/index.html">Home</a></li>
+        <li><a href="/EFL/tournaments.html" style="color: #f39c12;">Tournaments</a></li>
+        <li><a href="/EFL/teams.html">Teams</a></li>
+        <li><a href="/EFL/players.html">Players</a></li>
+        <li><a href="/EFL/pending.html">Awards</a></li>
+      </ul>
+      <div class="burger">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Static Scroll-to-Top Button -->
+  <a href="#top" id="scrollToTop" aria-label="Scroll to Top"><i class="fa-solid fa-arrow-up"></i></a>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-overlay">
+      <h1>Trilogy Tournament</h1>
+      <p>Presented By EFL.</p>
+    </div>
+  </section>
+
+  <!-- Match Format Section -->
+  <section class="media-section">
+    <div class="container">
+      <h2>Details</h2>
+      <p>
+        <b>WELCOME TO THE TRILOGY TOURNAMENT!</b>
+        <br><br>
+        We are excited to kick off this intense competition between two powerful teams; <b>Thunder Bolts</b> and <b>Storm Breakers</b>. Here's all the information you need to know before participation:
+        <br><br>
+        The tournament will be played in a <b>best-of-three series</b> format. The first team to win <b>2 matches</b> will be crowned the winner of the <b>Trilogy Tournament.</b> The team with the most goals at the end of the <b>30 minute match</b> will be declared the winner.
+        <br><br>
+        Each player must pay a registration fee of <b>₹50</b> to enter the tournament.
+        The winning team will get a <b>cash prize</b> of <b>₹400</b> and losing team will get a <b>cashback</b> of <b>₹50.</b>
+        <br><br>
+        Be sure to give your best because <b>Champions</b> keep playing until they get it right.
+        <br>
+        <b>Let the game begin!</b>
+      </p>
+    </div>
+  </section>
+
+  <!-- Player Stats Section -->
+  <section class="media-section">
+    <div class="container">
+      <h2>Summary</h2>
+      <!-- Player Cards -->
+      <div class="card-container" id="cardContainer">
+        <div class="card-wrapper" data-player="Amaan Riyaz">
+          <img src="/EFL/static/images/tt-info.png" alt="" srcset="">
+        </div>
+        <table>
+          <tr>
+            <th colspan="2" style="text-align: center; color: var(--primary-color);">Match 01</th>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-clock fa-bounce" style="--fa-primary-color: #e39c12; --fa-primary-opacity: 0.4; --fa-secondary-color: #e39c12; --fa-secondary-opacity: 1;"></i>
+              &nbsp;Time
+            </th>
+              <td>10:00 AM</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-calendar-week fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Date
+              </th>
+              <td>02 Feb, 2025</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-calendar-day fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Day
+            </th>
+              <td>Sunday</td>
+          </tr>
+          <tr>
+            <th colspan="2" style="text-align: center; color: var(--primary-color);">Match 02</th>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-clock fa-bounce" style="--fa-primary-color: #e39c12; --fa-primary-opacity: 0.4; --fa-secondary-color: #e39c12; --fa-secondary-opacity: 1;"></i>
+              &nbsp;Time
+            </th>
+              <td>10:30 AM</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-calendar-week fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Date
+              </th>
+              <td>02 Feb, 2025</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-calendar-day fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Day
+            </th>
+              <td>Sunday</td>
+          </tr>
+          <tr>
+            <th colspan="2" style="text-align: center; color: var(--primary-color);">Match 03</th>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-clock fa-bounce" style="--fa-primary-color: #e39c12; --fa-primary-opacity: 0.4; --fa-secondary-color: #e39c12; --fa-secondary-opacity: 1;"></i>
+              &nbsp;Time
+            </th>
+              <td>04:00 PM</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-calendar-week fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Date
+              </th>
+              <td>04 Feb, 2025</td>
+          </tr>
+          <tr>
+            <th><i class="fa-duotone fa-solid fa-calendar-day fa-bounce" style="--fa-primary-color: #e39c12; --fa-secondary-color: #e39c12;"></i>
+              &nbsp;Day
+            </th>
+              <td>Tuesday</td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <th colspan="2" style="text-align: center; color: var(--primary-color);">Thunder Bolts<br>V/S<br>Storm Breakers</th>
+          </tr>
+          <tr>
+            <th>Type</th>
+              <td>Best Of Three</td>
+          </tr>
+          <tr>
+            <th>Match Duration</th>
+              <td>30 min</td>
+          </tr>
+          <tr>
+            <th>Entry Fee / P</th>
+              <td>₹50</td>
+          </tr>
+          <tr>
+            <th>Winning Team</th>
+              <td>₹400</td>
+          </tr>
+          <tr>
+            <th>Losing Team</th>
+              <td>₹50</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="media-section">
+    <div class="container">
+      <h2>Instructions</h2>
+      <p>
+        You must <b>Read</b> & <b>Obey</b> the <b>Instructions</b>.
+        <br>
+        Click the button below to redirect to <b>Instructions Page.
+        </b><br>
+        <b>(Recommended)</b>
+      </p>
+      <a href="/EFL/instructions.html" class="btn">Read Now</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <!-- Column 1: Brand & Description -->
+      <div class="footer-col footer-brand">
+        <img src="/EFL/static/images/logo.png" alt="logo" width="250px">
+        <p>
+          The EFL is a premier football competition designed to bring together young football enthusiasts from the local community to showcase their skills, foster teamwork and promote sportsmanship. It is structured to ensure fair play and provide an opportunity for players to gain exposure and experience in a competitive environment. Whether it is skillful dribbling, powerful shots or strategic teamwork, this tournament will be an exciting opportunity for the participants to grow and enjoy the beautiful game.
+        </p>
+      </div>
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/EFL/pending.html">POTM</a></li>
+          <li><a href="/EFL/pending.html">Gallery</a></li>
+          <li><a href="/EFL/leaderboards.html">Leaderboards</a></li>
+          <li><a href="/EFL/instructions.html">Instructions</a></li>
+          <li><a href="/EFL/players.html">Players Comparison</a></li>
+        </ul>
+      </div>
+      <!-- Column 3: Social Media -->
+      <div class="footer-col footer-social">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="https://t.me/+JYXVYTNSelIwMjdl" target="_blank" aria-label="Telegram"><i class="fa-regular fa-paper-plane"></i></a>
+          <a href="https://mail.google.com/mail/u/0/#inbox?compose=GTvVlcSDbSFGCqjrPNbZNRmDPHwPPGShlNVTdFvWzfLndvjddqGhSSZMhqbSCWwJwdqTkZhbgbKTp" target="_blank" aria-label="Gmail"><i class="fa-regular fa-envelope"></i></a>
+          <a href="/EFL/pending.html" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 EFL. All Rights Reserved.
+    </div>
+  </footer>
+
+  <!-- JavaScript for Mobile Navigation -->
+  <script>
+
+    const minDisplayTime = 1000; // minimum time to show preloader (1 seconds)
+    const startTime = Date.now();
+    
+    function hidePreloader() {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, minDisplayTime - elapsed);
+      
+      setTimeout(() => {
+        const preloader = document.getElementById('buffer');
+        // Calculate a dynamic fade-out duration based on load time.
+        // If the page took more than 3 seconds, we'll set a longer fade-out up to 2 seconds.
+        let fadeDuration = 0.5; // default 0.5 seconds
+        if (elapsed > minDisplayTime) {
+          // For every extra second (1000ms) above the minimum, add 0.3s, up to 2 seconds max.
+          fadeDuration = Math.min(0.5 + ((elapsed - minDisplayTime) / 1000) * 0.3, 2);
+        }
+        preloader.style.transition = `opacity ${fadeDuration}s ease-out`;
+        preloader.offsetWidth; // force reflow
+        preloader.style.opacity = "0";
+        
+        setTimeout(() => {
+          preloader.style.display = "none";
+          document.getElementById('content').style.opacity = "1";
+        }, fadeDuration * 1000);
+      }, remaining);
+    }
+    
+    window.addEventListener('load', hidePreloader);
+    
+    // Fallback: hide preloader after 10 seconds max.
+    setTimeout(hidePreloader, 10000);
+
+
+
+    // Get the scroll-to-top button element
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    
+    // Function to show/hide the button based on scroll position
+    function toggleScrollButton() {
+      // Show the button if scrolled more than 100px, hide otherwise
+      if (window.pageYOffset > 100) {
+        scrollToTopBtn.style.display = 'flex';
+      } else {
+        scrollToTopBtn.style.display = 'none';
+      }
+    }
+    
+    // Listen for scroll events
+    window.addEventListener('scroll', toggleScrollButton);
+    
+    // Call the function once on page load in case the page is not at the top
+    toggleScrollButton();
+    
+    // Add click event to smoothly scroll to the top when the button is clicked
+    scrollToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    
+    const burger = document.querySelector('.burger');
+    const navLinks = document.querySelector('.nav-links');
+
+    burger.addEventListener('click', () => {
+      navLinks.classList.toggle('nav-active');
+      navLinks.querySelectorAll('li').forEach((link, index) => {
+        if(link.style.animation) {
+          link.style.animation = '';
+        } else {
+          link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
+        }
+      });
+      burger.classList.toggle('toggle');
+    });
+
+    const styleSheet = document.createElement('style');
+    styleSheet.type = 'text/css';
+    styleSheet.innerText = `
+      @keyframes navLinkFade {
+        from {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      .burger.toggle .line1 {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+      .burger.toggle .line2 {
+        opacity: 0;
+      }
+      .burger.toggle .line3 {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+    `;
+    document.head.appendChild(styleSheet);
+</script>
+  </script>
+</body>
+</html>

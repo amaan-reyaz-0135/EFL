@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EFL - Tournaments</title>
+  <!-- Font Awesome Icons Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Fav Icon -->
+  <link rel="icon" href="static/images/fav.png" type="image/x-icon">
+  <!-- Static Links -->
+  <link rel="stylesheet" href="static/style.css">
+
+  <style>
+    /* Hero Section */
+    .hero {
+      background: url('static/images/pc-tournaments.png') no-repeat center center/cover;
+      background-attachment: fixed;
+    }
+    @media (max-width: 768px) {
+      .hero {
+        background: url("static/images/ph-tournaments.png") no-repeat center center/cover;
+        background-attachment: fixed;
+      }
+    }
+
+    /* Tournaments Section */
+    /* Award Card Styling */
+    .slider-card {
+      flex: 0 0 auto;
+      width: var(--card-width);
+      scroll-snap-align: center;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--box-shdw);
+      margin: 0 10px;
+      background: linear-gradient(#d9d9d9, #fff);
+      height: 410px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .slider-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shdw-how);
+    }
+    .slider-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 1rem;
+    }
+    .card-content h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: #222;
+    }
+    .card-content p {
+      font-size: 0.95rem;
+      color: #555;
+      margin: 0 0.75rem;
+    }
+    .card-content .btn {
+      margin: 1.75rem 0;
+      display: inline-block;
+      background: var(--primary-color);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      transition: background 0.3s ease;
+    }
+    .tournament-card .card-content .btn:hover {
+      background: var(--secondary-color);
+    }
+    
+  </style>
+</head>
+<body>
+
+  <!-- Preloader: a full-screen overlay with a looping GIF -->
+  <div id="buffer">
+    <img id="buffer-gif" autoplay loop muted playsinline src="static/images/loading.gif">
+  </div>
+  
+  <!-- Header & Navigation -->
+  <header>
+    <nav class="container">
+      <div class="logo">
+        <a href="index.html"><img src="static/images/logo.png" alt="logo" width="240px"></a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="tournaments.html" style="color: #f39c12;">Tournaments</a></li>
+        <li><a href="teams.html">Teams</a></li>
+        <li><a href="players.html">Players</a></li>
+        <li><a href="pending.html">Awards</a></li>
+      </ul>
+      <div class="burger">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Static Scroll-to-Top Button -->
+  <a href="#top" id="scrollToTop" aria-label="Scroll to Top"><i class="fa-solid fa-arrow-up"></i></a>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-overlay">
+      <h1>About Tournaments</h1>
+      <p>Stay Updated With The Latest Tournament Events.</p>
+    </div>
+  </section>
+
+  <!-- Completed Tournaments Section -->
+  <section class="media-section">
+    <div class="container">
+      <h2>Completed Tournaments</h2>
+      <!-- Awards Slider Container -->
+      <div class="slider">
+        <!-- Left Arrow Button (hidden initially) -->
+        <button type="button" class="arrow-btn arrow-left" id="arrowLeft" aria-label="Previous Card" style="display: none;">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        
+        <!-- Horizontal Scroll Container with Award Cards -->
+        <div class="slider-wrapper" id="awardsWrapper">
+          <div class="slider-card">
+            <img src="static/images/ct-tt.png" alt="Trilogy Tournament"/>
+              <div class="card-content">
+                <h3>Trilogy Tournament</h3>
+                <p><strong>Type:</strong> Best Of Three</p>
+                <p><strong>Venue:</strong> Joggers Park</p>
+                <p><strong>Created:</strong> 02 February, 2025</p>
+                <a href="relatives/tournaments/tt-info.html" class="btn">Info</a>
+                <a href="relatives/tournaments/tt-result.html" class="btn" style="margin-left: 85px;">Result</a>
+              </div>
+          </div>
+        </div>
+        
+        <!-- Right Arrow Button -->
+        <button type="button" class="arrow-btn arrow-right" id="arrowRight" aria-label="Next Card">
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+      
+      <!-- Progress Bar -->
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <!-- Column 1: Brand & Description -->
+      <div class="footer-col footer-brand">
+        <img src="static/images/logo.png" alt="logo" width="250px">
+        <p>
+          The EFL is a premier football competition designed to bring together young football enthusiasts from the local community to showcase their skills, foster teamwork and promote sportsmanship. It is structured to ensure fair play and provide an opportunity for players to gain exposure and experience in a competitive environment. Whether it is skillful dribbling, powerful shots or strategic teamwork, this tournament will be an exciting opportunity for the participants to grow and enjoy the beautiful game.
+        </p>
+      </div>
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="pending.html">POTM</a></li>
+          <li><a href="pending.html">Gallery</a></li>
+          <li><a href="leaderboards.html">Leaderboards</a></li>
+          <li><a href="instructions.html">Instructions</a></li>
+          <li><a href="players.html">Players Comparison</a></li>
+        </ul>
+      </div>
+      <!-- Column 3: Social Media -->
+      <div class="footer-col footer-social">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="https://t.me/+JYXVYTNSelIwMjdl" target="_blank" aria-label="Telegram"><i class="fa-regular fa-paper-plane"></i></a>
+          <a href="https://mail.google.com/mail/u/0/#inbox?compose=GTvVlcSDbSFGCqjrPNbZNRmDPHwPPGShlNVTdFvWzfLndvjddqGhSSZMhqbSCWwJwdqTkZhbgbKTp" target="_blank" aria-label="Gmail"><i class="fa-regular fa-envelope"></i></a>
+          <a href="pending.html" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 EFL. All Rights Reserved.
+    </div>
+  </footer>
+
+  <!-- JavaScript for Mobile Navigation -->
+  <script>
+
+    const minDisplayTime = 1000; // minimum time to show preloader (1 seconds)
+    const startTime = Date.now();
+    
+    function hidePreloader() {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, minDisplayTime - elapsed);
+      
+      setTimeout(() => {
+        const preloader = document.getElementById('buffer');
+        // Calculate a dynamic fade-out duration based on load time.
+        // If the page took more than 3 seconds, we'll set a longer fade-out up to 2 seconds.
+        let fadeDuration = 0.5; // default 0.5 seconds
+        if (elapsed > minDisplayTime) {
+          // For every extra second (1000ms) above the minimum, add 0.3s, up to 2 seconds max.
+          fadeDuration = Math.min(0.5 + ((elapsed - minDisplayTime) / 1000) * 0.3, 2);
+        }
+        preloader.style.transition = `opacity ${fadeDuration}s ease-out`;
+        preloader.offsetWidth; // force reflow
+        preloader.style.opacity = "0";
+        
+        setTimeout(() => {
+          preloader.style.display = "none";
+          document.getElementById('content').style.opacity = "1";
+        }, fadeDuration * 1000);
+      }, remaining);
+    }
+    
+    window.addEventListener('load', hidePreloader);
+    
+    // Fallback: hide preloader after 10 seconds max.
+    setTimeout(hidePreloader, 10000);
+
+
+
+    // Get the scroll-to-top button element
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    
+    // Function to show/hide the button based on scroll position
+    function toggleScrollButton() {
+      // Show the button if scrolled more than 100px, hide otherwise
+      if (window.pageYOffset > 100) {
+        scrollToTopBtn.style.display = 'flex';
+      } else {
+        scrollToTopBtn.style.display = 'none';
+      }
+    }
+    
+    // Listen for scroll events
+    window.addEventListener('scroll', toggleScrollButton);
+    
+    // Call the function once on page load in case the page is not at the top
+    toggleScrollButton();
+    
+    // Add click event to smoothly scroll to the top when the button is clicked
+    scrollToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    
+    const burger = document.querySelector('.burger');
+    const navLinks = document.querySelector('.nav-links');
+
+    burger.addEventListener('click', () => {
+      navLinks.classList.toggle('nav-active');
+      navLinks.querySelectorAll('li').forEach((link, index) => {
+        if(link.style.animation) {
+          link.style.animation = '';
+        } else {
+          link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
+        }
+      });
+      burger.classList.toggle('toggle');
+    });
+
+    const styleSheet = document.createElement('style');
+    styleSheet.type = 'text/css';
+    styleSheet.innerText = `
+      @keyframes navLinkFade {
+        from {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      .burger.toggle .line1 {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+      .burger.toggle .line2 {
+        opacity: 0;
+      }
+      .burger.toggle .line3 {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+    `;
+    document.head.appendChild(styleSheet);
+
+
+    document.querySelectorAll('.slider').forEach((slider) => {
+            const sliderWrapper = slider.querySelector('.slider-wrapper');
+            const arrowLeft = slider.querySelector('.arrow-left');
+            const arrowRight = slider.querySelector('.arrow-right');
+            const progressBar = slider.closest('.container').querySelector('.progress-bar');
+            const cards = sliderWrapper.querySelectorAll('.slider-card');
+            const totalCards = cards.length;
+            let currentIndex = 0;
+
+            function updateSliderUI() {
+                arrowLeft.style.display = currentIndex === 0 ? 'none' : 'block';
+                arrowRight.style.display = currentIndex === totalCards - 1 ? 'none' : 'block';
+                const progressPercent = ((currentIndex + 1) / totalCards) * 100;
+                progressBar.style.width = progressPercent + '%';
+            }
+
+            function scrollToCard(index) {
+                if (index < 0) index = 0;
+                if (index >= totalCards) index = totalCards - 1;
+                currentIndex = index;
+                cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                updateSliderUI();
+            }
+
+            updateSliderUI();
+
+            arrowRight.addEventListener('click', (e) => {
+                e.preventDefault();
+                scrollToCard(currentIndex + 1);
+            });
+
+            arrowLeft.addEventListener('click', (e) => {
+                e.preventDefault();
+                scrollToCard(currentIndex - 1);
+            });
+        });
+
+
+
+</script>
+  </script>
+</body>
+</html>
