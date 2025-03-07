@@ -33,6 +33,9 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
+      padding: 10px;
+      margin-top: 20px;
+      color: #000;
     }
 
     /* Individual Card Wrapper */
@@ -66,16 +69,6 @@
       width: 100%;
       transition: transform 0.3s ease-in-out;
     }
-
-    /* Player Card Container */
-    .card-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 10px;
-      margin-top: 20px;
-    }
     /* Player Card */
     .player-card {
       width: 150px;
@@ -92,7 +85,8 @@
     }
 
     table {
-      width: 280px;
+      max-width: 280px;
+      width: 100%;
       border: 2px solid var(--primary-color);
       background-color: #fff;
       padding: 10px;
@@ -106,6 +100,9 @@
     table td {
       text-align: right;
       border-bottom: 2px solid #eee;
+    }
+    .pop-card-wrapper {
+      border: none;
     }
   </style>
 </head>
@@ -298,7 +295,7 @@
       <section class="pop-media-section">
         <div class="container">
           <h2>OVR Upgrades</h2>
-          <div id="tablesContainer" class="pop-table">
+          <div id="tablesContainer" class="card-container">
             <!-- Tables will be inserted here -->
           </div>
         </div>
@@ -515,7 +512,7 @@ function getStat(id) {
 
             for (let i = 0; i < totalLevels / levelsPerTable; i++) {
                 let tableWrapper = document.createElement("div");
-                tableWrapper.classList.add("table-wrapper");
+                tableWrapper.classList.add("pop-card-wrapper");
 
                 let start = startLevel + i * levelsPerTable;
                 let end = start + levelsPerTable;
