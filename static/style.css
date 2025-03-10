@@ -113,6 +113,7 @@ html {
     border: 2px solid var(--primary-color);
     border-radius: 10px;
     object-fit: cover;
+    background-color: var(--dark-bg);
 }
 
 /* Header & Navigation */
@@ -224,7 +225,7 @@ nav {
 /* Hero Section For Multiple Pages */
 .hero {
     position: relative;
-    height: 100vh;
+    height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
